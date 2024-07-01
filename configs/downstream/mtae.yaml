@@ -1,0 +1,111 @@
+seed: 0
+output_dir: ./mtae
+exp_name: finetune
+resume: null
+start_epoch: 0
+encoder_path: ./mtae/pretrain/encoder.pth
+model_name: vit_base
+mode: finetune
+device: cuda
+
+ddp:
+  world_size: 1
+  rank: -1
+  gpu: 0
+  dist_url: env://
+  dist_backend: nccl
+  distributed: false
+
+model:
+  seq_len: 2250
+  patch_size: 75
+  num_leads: 12
+  num_classes: 3
+
+dataset:
+  filename_col: FILE_NAME
+  fs_col: SAMPLE_RATE
+  label_col: LABEL
+  label_dtype: long
+  lead: 12lead
+  fs: 250
+  index_dir: ./data/dummy
+  ecg_dir: ./data/dummy/ecgs
+
+  train_csv: index.csv
+  valid_csv: index.csv
+  test_csv: index.csv
+
+  rand_augment:
+    use: true
+    kwargs:
+      op_names:
+      - shift
+      - cutout
+      - drop
+      - flip
+      - erase
+      - sine
+      - partial_sine
+      - partial_white_noise
+      level: 10
+      num_layers: 2
+      prob: 0.5
+  train_transforms:
+  - random_crop:
+      crop_length: 2250
+  - highpass_filter:
+      fs: 250
+      cutoff: 0.67
+  - lowpass_filter:
+      fs: 250
+      cutoff: 40
+  - standardize:
+      axis: [-1, -2]
+  eval_transforms:
+  - n_crop:
+      crop_length: 2250
+      num_segments: 3
+  - highpass_filter:
+      fs: 250
+      cutoff: 0.67
+  - lowpass_filter:
+      fs: 250
+      cutoff: 40
+  - standardize:
+      axis: [-1, -2]
+
+dataloader:
+  batch_size: 16
+  num_workers: 8
+  pin_memory: True
+
+train:
+  epochs: 10
+  accum_iter: 1
+  warmup_epochs: 3
+  min_lr: 0
+  blr: 1.0e-3
+  lr: null
+  weight_decay: 0.05
+  dist_eval: false
+  max_norm: null
+  optimizer: adamw
+
+loss:
+  name: cross_entropy
+
+metric:
+  task: multiclass
+  compute_on_cpu: true
+  sync_on_compute: false
+  num_classes: 3
+  target_metrics:
+  - Accuracy
+  - F1Score:
+      average: macro
+  - AUROC:
+      average: macro
+
+test:
+  target_metric: loss
