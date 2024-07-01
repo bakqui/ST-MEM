@@ -1,0 +1,14 @@
+__pycache__/
+
+# custom files (e.g., config, data, notebook, ...)
+*.yaml
+*.sh
+*.ipynb
+*.csv
+*.pkl
+
+# output files (e.g., models, tensorboard, ...)
+*.pth
+*events.out.tfevents*
+log.txt
+test_metrics.csv
