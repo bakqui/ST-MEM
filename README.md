@@ -40,8 +40,9 @@ bash run_pretrain.sh \
     --exp_name ${EXPERIMENT_NAME}
 ```
 
-We present the pre-trained ST-MEM encoder:
-- Link: https://drive.google.com/file/d/1jtPrPbDwrbE9ZAq1M-9koNbuTbmWRrie/view?usp=drive_link
+We present the pre-trained ST-MEM:
+- Encoder: https://drive.google.com/file/d/1E7J-A1HqWa2f08T6Sfk5uWk-_CFJhOYQ/view?usp=share_link
+- Full (encoder + decoder): https://drive.google.com/file/d/14nScwPk35sFi8wc-cuLJLqudVwynKS0n/view?usp=share_link
 
 ## Downstream training
 
