@@ -56,6 +56,12 @@ bash run_downstream.sh \
     --encoder_path ${PRETRAINED_ENCODER_PATH}
 ```
 
+## License
+© VUNO Inc. All rights reserved.
+ 
+This repository contains code developed at VUNO Inc. by its employees as part of their official duties.
+Do not distribute, modify, or use this code outside the scope permitted by the license without explicit permission from VUNO.
+
 ## Citation
 
 If you find this work or code is helpful in your research, please cite:
